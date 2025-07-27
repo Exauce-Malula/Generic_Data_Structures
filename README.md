@@ -14,9 +14,11 @@ These are the data structures I am attempting to implement within the library:
 - Binary Trees
 
 # Works in Progress
-As of now (14th April 2025), these are the structures I am currently trying to implement:
+As of the 27th July 2025, these are the structures I am currently trying to implement:
 - Stacks
 - Singly Linked Lists
+- Dynamic Array **(current focus)**
+- Hash Map
 
 # Completed Structures
-As of now (14th April 2025), no data structure has been completed.
+As of the 14th April 2025, no data structure has been completed.
