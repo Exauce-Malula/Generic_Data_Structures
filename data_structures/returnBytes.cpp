@@ -1,4 +1,4 @@
-#include <iostream>
+/* #include <iostream>
 #include "datastructures.h" // Own library created as a header file.
 
 int returnBytes(DATATYPE types){
@@ -28,3 +28,4 @@ int returnBytes(DATATYPE types){
             break;
     }
 }
+*/
