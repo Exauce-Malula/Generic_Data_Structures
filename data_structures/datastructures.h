@@ -8,6 +8,7 @@
 #include <cstring>
 #include <any>
 #include <cstddef>
+#include <new>
 
 /* typedef struct LinkedList LinkedList;
 typedef LinkedList* ll_ptr;
@@ -102,6 +103,12 @@ inline std::any elementDereferencing(void* element, Datatypes type){ // Function
 // bool nullptr_check(void* dynamicallyAllocatedMemory);
 // int returnBytes(DATATYPE types);
 
+// Struct definition for an element:
+typedef struct element{
+    void* element;
+    Datatypes type;
+}element;
+
 // Dynamic Array class declaration:
 class DynArray{
      private:
@@ -148,6 +155,12 @@ class LinkedList{
         void print_LinkedList();                                       // Procedure which prints the entirity of the Linked List. 
         ~LinkedList();
 };
+
+// Struct defintion for data contained within a node:
+typedef struct nodeData{
+    void* data;
+    Datatypes type;
+}nodeData;
 
 // Stack class declaration:
 class Stack{

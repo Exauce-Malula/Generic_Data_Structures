@@ -7,9 +7,9 @@
 #include <cstring>
 
 LinkedList::LinkedList(void* data, Datatypes type){   // Constructor declaration which instantiates a single node pointing to "nullptr".
-    val.data = data;                                  // Sets the node's data to the void pointer.
-    val.type = type;                                  // Sets the typing of the data to "type", provided by parameter passing.
-    next = nullptr;                                   // Sets the next node to NULL, terminating pointer.
+    this->val.data = data;                            // Sets the node's data to the void pointer.
+    this->val.type = type;                            // Sets the typing of the data to "type", provided by parameter passing.
+    this->next = nullptr;                             // Sets the next node to NULL, terminating pointer.
 }
 
 LinkedList* LinkedList::initLinkedList(size_t size){    // Function method declaration which initalises a linked list.
@@ -126,9 +126,9 @@ void LinkedList::insert_element_LinkedList(void* data, Datatypes type){     // P
     if (this == nullptr){                                                   // If the current instance of the Linked List is "nullptr" (empty), then the method stops, returns nothing.
         return;
     }
-    LinkedList* temp = this;
-    while(temp != nullptr){
-        switch(temp->val.type){
+    LinkedList* temp = this;                                                // A temporary Linked List is created and is set equal to the current instance Linked List.
+    while(temp != nullptr){                                                 // While loop which goes through every single Linked list node, until reaching "nullptr", to terminate the loop.
+        switch(temp->val.type){                                             // Switch to determine what type the data is, then proceeds to dereference the void pointers and prints the value out.
             case Datatypes::SIGNED_INT:{
                 std::cout << *(signed int*)(temp->val.data) << " -> ";
                 break;
@@ -179,7 +179,7 @@ void LinkedList::insert_element_LinkedList(void* data, Datatypes type){     // P
             }
         }
     }
-    std::cout << "nullptr." << std::endl;
+    std::cout << "nullptr." << std::endl;                                   // Concludes by printing nullptr.
 }    
 
 LinkedList::~LinkedList(){
