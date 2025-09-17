@@ -148,3 +148,27 @@ class LinkedList{
         void print_LinkedList();                                       // Procedure which prints the entirity of the Linked List. 
         ~LinkedList();
 };
+
+// Stack class declaration:
+class Stack{
+    private:
+        struct element{
+            void* data; 
+            Datatypes type;
+        };
+
+        element* stack;
+        element* topPointer;
+        unsigned char size;
+        unsigned char utilisedSize;
+
+        bool isFull();
+    
+    public:
+        Stack();
+        bool isEmpty();
+        void push(void* value, Datatypes type);
+        element pop();
+        element peek();
+        ~Stack();
+};

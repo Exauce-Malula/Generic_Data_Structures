@@ -1,0 +1,6 @@
+- Fully write hash map
+- Comment fully for the stack
+- Complete stack
+- Complete and comment on Linked List's destructor.
+- Write the insertion method for the Linked List.
+- Test all data structures

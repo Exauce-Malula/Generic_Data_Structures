@@ -20,12 +20,17 @@ LinkedList* LinkedList::initLinkedList(size_t size){    // Function method decla
         return nullptr;
     }
 
-    for (size_t i = 0; i < size; i++){ 
-        int typingNumber;
+    for (size_t i = 0; i < size; i++){                                  // For loop adds nodes based on the "size" provided.
+        int typingNumber;                                               // This variable is used to select a data type.
         std::cin >> typingNumber;
-        Datatypes typeProvided = static_cast<Datatypes>(typingNumber);
+        Datatypes typeProvided = static_cast<Datatypes>(typingNumber);  // The integer is then casted to a type provided by the enum class "Datatypes".
 
-        void* elementProvided;
+        void* elementProvided;                                          // This void pointer is used to contain the actual data of the node being chained.
+
+        /* The switch statement below is an attempt for a user to input their data/value, then 
+           a pointer will point to that input. "elementProvided" is then set equal to that pointer,
+           so it can be stored within the node.
+        */
 
         switch(typeProvided){
             case Datatypes::SIGNED_INT:{
@@ -103,21 +108,24 @@ LinkedList* LinkedList::initLinkedList(size_t size){    // Function method decla
 
         }
 
-        LinkedList* newNode = new LinkedList(elementProvided, typeProvided);
-        if (head == nullptr){
+        LinkedList* newNode = new LinkedList(elementProvided, typeProvided);    // A new node is instantiated.
+        if (head == nullptr){                                                   // Checks if the head is equal to "nullptr" (empty).
             head = newNode;
             tail = newNode;
-        }
-        tail->next = newNode;
-        tail = newNode;
+        }                                                                       // Both "head" and "tail" are set to the new node, where both point to "nullptr". 
+        tail->next = newNode;                                                   // The pointer to the tail is set to the new node.
+        tail = newNode;                                                         // The tail is also set to the new node.
     }
-    return head;
+    return head;                                                                // The head is returned.
 }
 
 // Comment on init method at school...
 // Also comment on destructor method (finish it as well please) and print method...
 
 void LinkedList::insert_element_LinkedList(void* data, Datatypes type){     // Procedure method declaration, inserts a node at the head of the Linked List.
+    if (this == nullptr){                                                   // If the current instance of the Linked List is "nullptr" (empty), then the method stops, returns nothing.
+        return;
+    }
     LinkedList* temp = this;
     while(temp != nullptr){
         switch(temp->val.type){
