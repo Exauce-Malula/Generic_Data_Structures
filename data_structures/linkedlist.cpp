@@ -183,5 +183,56 @@ void LinkedList::insert_element_LinkedList(void* data, Datatypes type){     // P
 }    
 
 LinkedList::~LinkedList(){
+    switch(val.type){
+        case Datatypes::SIGNED_INT:{
+            delete static_cast<signed int*>(val.data);
+            break;
+        }
+        case Datatypes::UNSIGNED_INT:{
+            delete static_cast<unsigned int*>(val.data);
+            break;
+        }
+        case Datatypes::UNSIGNED_LONG_INT:{
+            delete static_cast<unsigned long int*>(val.data);
+            break;
+        }
+        case Datatypes::CHAR:{
+            delete static_cast<char*>(val.data);
+            break;
+        }
+        case Datatypes::SIGNED_CHAR:{
+            delete static_cast<signed char*>(val.data);
+            break;
+        }
+         case Datatypes::UNSIGNED_CHAR:{
+            delete static_cast<signed char*>(val.data);
+            break;
+        }
+         case Datatypes::SIGNED_SHORT:{
+            delete static_cast<signed short*>(val.data);
+            break;
+        }
+        case Datatypes::UNSIGNED_SHORT:{
+            delete static_cast<unsigned short*>(val.data);
+            break;
+        }
+        case Datatypes::STRING:{
+            delete static_cast<std::string*>(val.data);
+            break;
+        }
+        case Datatypes::BOOLEAN:{
+            delete static_cast<bool*>(val.data);
+            break;
+        }
+        case Datatypes::FLOAT:{
+            delete static_cast<float*>(val.data);
+            break;
+        }
+        case Datatypes::DOUBLE:{
+            delete static_cast<double*>(val.data);
+            break;
+        }
+    }
 
+    delete next;
 }

@@ -156,11 +156,13 @@ class LinkedList{
         ~LinkedList();
 };
 
+/*
 // Struct defintion for data contained within a node:
 typedef struct nodeData{
     void* data;
     Datatypes type;
 }nodeData;
+*/
 
 // Stack class declaration:
 class Stack{

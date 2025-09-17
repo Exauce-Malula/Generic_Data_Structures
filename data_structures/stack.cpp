@@ -14,7 +14,7 @@ bool Stack::isFull(){
 }
 
 Stack::Stack(){
-    this->stack = new(std::nothrow) Stack[1];
+    this->stack = new(std::nothrow) element[1];
     this->topPointer = stack;
     this->size = 1;
     this->utilisedSize = 0;
@@ -29,27 +29,49 @@ bool Stack::isEmpty(){
 
 void Stack::push(void* value, Datatypes type){
     if (isFull()){
-        element* newStack = new(std::nothrow) Stack[size << 1];
-        std::memcpy(newStack, stack, sizeof(stack));
+        element* newStack = new(std::nothrow) element[size << 1];
+        std::memcpy(newStack, stack, sizeof(element) * utilisedSize);
         delete[] stack;
         stack = newStack;
         size = size << 1;
+        this->topPointer = this->stack + utilisedSize;
     }
 
-    // Will need to add dereferencing.....
+    this->topPointer->data = value;
+    this->topPointer->type = type;
+    topPointer++;
+
 }
 
-element Stack::pop(){
+Stack::element Stack::pop(){
+    if(isEmpty()){
+        std::cout << "Unable to pop, the stack is empty..." << std::endl;
+        return;
+    }
+    else if (utilisedSize <= (size >> 1)){
+        element* newStack = new(std::nothrow) element[size << 1];
+        std::memcpy(newStack, stack, sizeof(element) * utilisedSize);
+        delete[] stack;
+        stack = newStack;
+        size = size >> 1;
+        this->topPointer = this->stack - utilisedSize;
+    }
 
+    topPointer--;
+    return *(topPointer + 1);
 }
 
-element Stack::peek(){
-
+Stack::element Stack::peek(){
+    if(isEmpty()){
+        std::cout << "Unable to peek, the stack is empty..." << std::endl;
+        return;
+    }
+    return *(topPointer - 1);
 }
 
 Stack::~Stack(){
     delete[] stack;
-    stack == nullptr;
+    stack = nullptr;
 }
 
 
