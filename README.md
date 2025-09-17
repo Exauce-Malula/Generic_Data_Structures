@@ -21,4 +21,4 @@ As of the 27th July 2025, these are the structures I am currently trying to impl
 - Hash Map
 
 # Completed Structures
-As of the 17th September 2025, the dynamic array and Sibgly Linked List have been nearly completed. However, they have yet to be tested.
+As of the 17th September 2025, the dynamic array and Singly Linked List have been nearly completed. However, they have yet to be tested.
