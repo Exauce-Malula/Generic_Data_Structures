@@ -17,8 +17,8 @@ These are the data structures I am attempting to implement within the library:
 As of the 27th July 2025, these are the structures I am currently trying to implement:
 - Stacks
 - Singly Linked Lists
-- Dynamic Array **(current focus)**
+- Dynamic Array 
 - Hash Map
 
 # Completed Structures
-As of the 7th August 2025, only the dynamic array has been completed. However, it has yet to be tested.
+As of the 17th September 2025, the dynamic array and Sibgly Linked List have been nearly completed. However, they have yet to be tested.
