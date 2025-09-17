@@ -143,7 +143,7 @@ class LinkedList{
 
     public:
         LinkedList(void* data, Datatypes type);                        // Constructor declaration which instantiates a single node pointing to "nullptr".
-        LinkedList* initLinkedList(size_t size);                       // Function method declaration which initalises a linked list.
+        static LinkedList* initLinkedList(size_t size);                // Function method declaration which initalises a linked list.
         void insert_element_LinkedList(void* data, Datatypes type);    // Procedure method declaration, inserts a node at the head of the Linked List.
         void print_LinkedList();                                       // Procedure which prints the entirity of the Linked List. 
         ~LinkedList();

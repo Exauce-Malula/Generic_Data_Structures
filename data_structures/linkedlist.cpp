@@ -20,75 +20,160 @@ LinkedList* LinkedList::initLinkedList(size_t size){    // Function method decla
         return nullptr;
     }
 
-    for (size_t i = 0; i < size; i++){
-        Datatypes typeProvided;
-        void* elementProvided;
+    for (size_t i = 0; i < size; i++){ 
+        int typingNumber;
+        std::cin >> typingNumber;
+        Datatypes typeProvided = static_cast<Datatypes>(typingNumber);
 
-        std::cin >> typeProvided;
+        void* elementProvided;
 
         switch(typeProvided){
             case Datatypes::SIGNED_INT:{
                 signed int* element = new signed int;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::SIGNED_CHAR:{
                 signed char* element = new signed char;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::SIGNED_SHORT:{
                 signed short* element = new signed short;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::UNSIGNED_INT:{
                 unsigned int* element = new unsigned int;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::UNSIGNED_CHAR:{
                 unsigned char* element = new unsigned char;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::UNSIGNED_SHORT:{
                 unsigned short* element = new unsigned short;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::UNSIGNED_LONG_INT:{
                 unsigned long* element = new unsigned long;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::CHAR:{
                 char* element = new char;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::STRING:{
                 std::string* element = new std::string;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::BOOLEAN:{
                 bool* element = new bool;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::FLOAT:{
                 float* element = new float;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
             case Datatypes::DOUBLE:{
                 double* element = new double;
                 std::cin >> *element;
                 elementProvided = element;
+                break;
             }
 
         }
-        LinkedList* newNode = new LinkedList();
+
+        LinkedList* newNode = new LinkedList(elementProvided, typeProvided);
+        if (head == nullptr){
+            head = newNode;
+            tail = newNode;
+        }
+        tail->next = newNode;
+        tail = newNode;
     }
+    return head;
+}
+
+// Comment on init method at school...
+// Also comment on destructor method (finish it as well please) and print method...
+
+void LinkedList::insert_element_LinkedList(void* data, Datatypes type){     // Procedure method declaration, inserts a node at the head of the Linked List.
+    LinkedList* temp = this;
+    while(temp != nullptr){
+        switch(temp->val.type){
+            case Datatypes::SIGNED_INT:{
+                std::cout << *(signed int*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::UNSIGNED_INT:{
+                std::cout << *(unsigned int*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::UNSIGNED_LONG_INT:{
+                std::cout << *(unsigned long*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::CHAR:{
+                std::cout << *(char*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::SIGNED_CHAR:{
+                std::cout << *(signed char*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::UNSIGNED_CHAR:{
+                std::cout << *(unsigned char*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::SIGNED_SHORT:{
+                std::cout << *(signed short*)(temp->val.data) << " -> ";
+                break;
+            } 
+            case Datatypes::UNSIGNED_SHORT:{
+                std::cout << *(unsigned short*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::STRING:{
+                std::cout << *(std::string*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::BOOLEAN:{
+                std::cout << *(bool*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::FLOAT:{
+                std::cout << *(float*)(temp->val.data) << " -> ";
+                break;
+            }
+            case Datatypes::DOUBLE:{
+                std::cout << *(double*)(temp->val.data) << " -> ";
+                break;
+            }
+        }
+    }
+    std::cout << "nullptr." << std::endl;
+}    
+
+LinkedList::~LinkedList(){
+
 }
