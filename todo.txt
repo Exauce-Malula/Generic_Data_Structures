@@ -4,4 +4,3 @@
 - Complete and comment on Linked List's destructor.
 - Write the insertion method for the Linked List.
 - Test all data structures.
-- Have all structs declared outside classes.

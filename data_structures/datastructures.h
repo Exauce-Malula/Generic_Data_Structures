@@ -187,3 +187,12 @@ class Stack{
         element peek();
         ~Stack();
 };
+
+// Hash map class declaration
+class HashMap{
+    private:
+        const int tableSize = 101;
+        struct hashNode{
+            
+        };
+};
