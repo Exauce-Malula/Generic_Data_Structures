@@ -193,6 +193,20 @@ class HashMap{
     private:
         const int tableSize = 101;
         struct hashNode{
-            
+            void* key;
+            Datatypes keyType;
+            void* value;
+            Datatypes valueType;
+            hashNode* next;
         };
+
+        hashNode table[tableSize];
+        int hash(void* val, Datatypes valType);
+
+    public:
+        HashMap();
+        void insert(void* val, void* key, Datatypes valType, Datatypes keyType);
+        hashNode get(void* key, Datatypes keyType;);
+        bool remove(void* key, Datatypes keyType);
+        ~HashMap();
 };

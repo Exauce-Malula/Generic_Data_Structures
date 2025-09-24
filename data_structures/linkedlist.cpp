@@ -182,8 +182,8 @@ void LinkedList::insert_element_LinkedList(void* data, Datatypes type){     // P
     std::cout << "nullptr." << std::endl;                                   // Concludes by printing nullptr.
 }    
 
-LinkedList::~LinkedList(){
-    switch(val.type){
+LinkedList::~LinkedList(){                              // Destructor method for the Linked List class, destroys a chain of nodes.
+    switch(this->val.type){                             // Switch to determine what type the data is, then proceeds to cast the void pointer to the appropriate pointer type to delete the pointer.
         case Datatypes::SIGNED_INT:{
             delete static_cast<signed int*>(val.data);
             break;
@@ -234,5 +234,5 @@ LinkedList::~LinkedList(){
         }
     }
 
-    delete next;
+    delete next;                                        // Recursively deletes the next node.
 }
