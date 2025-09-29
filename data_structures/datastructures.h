@@ -10,6 +10,8 @@
 #include <cstddef>
 #include <new>
 
+#define TABLESIZE 101
+
 /* typedef struct LinkedList LinkedList;
 typedef LinkedList* ll_ptr;
 ll_ptr initLinkedList;
@@ -191,22 +193,21 @@ class Stack{
 // Hash map class declaration
 class HashMap{
     private:
-        const int tableSize = 101;
+        // const unsigned char tableSize = 101;
         struct hashNode{
-            void* key;
-            Datatypes keyType;
+            unsigned char key;
             void* value;
             Datatypes valueType;
             hashNode* next;
         };
 
-        hashNode table[tableSize];
-        int hash(void* val, Datatypes valType);
+        hashNode* table[TABLESIZE];
+        unsigned char hash(void* val, Datatypes valType);
 
     public:
         HashMap();
         void insert(void* val, void* key, Datatypes valType, Datatypes keyType);
-        hashNode get(void* key, Datatypes keyType);
+        Stack* get(void* key, Datatypes keyType);
         bool remove(void* key, Datatypes keyType);
         ~HashMap();
 };
