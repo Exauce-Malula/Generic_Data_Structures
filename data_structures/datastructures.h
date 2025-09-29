@@ -206,7 +206,7 @@ class HashMap{
     public:
         HashMap();
         void insert(void* val, void* key, Datatypes valType, Datatypes keyType);
-        hashNode get(void* key, Datatypes keyType;);
+        hashNode get(void* key, Datatypes keyType);
         bool remove(void* key, Datatypes keyType);
         ~HashMap();
 };
