@@ -37,13 +37,13 @@ void Stack::push(void* value, Datatypes type){                          // Metho
         this->topPointer = this->stack + utilisedSize;                  // Pointer arithmetic; the "topPointer" is now currently pointing at the next available space at the top of the stack.
     }
 
-    this->topPointer->data = value;                                     // The data is set equal to the void pointer parameter "value". 
+    this->topPointer->elementPtr = value;                               // The data is set equal to the void pointer parameter "value". 
     this->topPointer->type = type;                                      // The typing is then also set equal to the enum class object parameter "type".
     topPointer++;                                                       // The top pointer moves up to the next free elemnent.
     utilisedSize++;                                                     // The utilised size is incremented by one as one new element has been added to the stack.
 }
 
-Stack::element Stack::pop(){                                                // Method which pops an element off the top of the stack.
+element Stack::pop(){                                                       // Method which pops an element off the top of the stack.
     if(isEmpty()){                                                          // Uses selection to check whether the stack is empty, "pop" cannot occur if there are no elements on the stack.
         std::cout << "Unable to pop, the stack is empty..." << std::endl;   // Error message telling the user that the stack is unable to be popped.
         return;                                                             // Nothing is returned.
@@ -61,7 +61,7 @@ Stack::element Stack::pop(){                                                // M
     return *(topPointer + 1);                                               // The value which the "topPointer" points to is then returned.
 }
 
-Stack::element Stack::peek(){                                               // Method which peeks at an element on top of the stack.
+element Stack::peek(){                                                      // Method which peeks at an element on top of the stack.
     if(isEmpty()){                                                          // Uses selection to check whether the stack is empty, "peek" cannot occur if there are no elements on the stack.
         std::cout << "Unable to peek, the stack is empty..." << std::endl;  // Error message telling the user that the stack is unable to be peeked.
         return;                                                             // Nothing is returned.

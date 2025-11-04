@@ -107,17 +107,19 @@ inline std::any elementDereferencing(void* element, Datatypes type){ // Function
 
 // Struct definition for an element:
 typedef struct element{
-    void* element;
+    void* elementPtr;
     Datatypes type;
 }element;
 
 // Dynamic Array class declaration:
 class DynArray{
      private:
+        /*
         struct element{         // Struct which contains information for an individual element.
             void* elementPtr;   // The void pointer which points to memory, can be of anything, however, requires casting when dereferencing.
             Datatypes type;     // The enum object, signifies what type the void pointer needs to be dereferenced to.
         };
+        */
 
         element* array;                 // Pointer for the dynamic array; this is so memory can be dynamically allocated.
         unsigned char size;             // Unsigned character, keeps count of the POTENTIAL maximum size of the array.  
@@ -131,22 +133,23 @@ class DynArray{
         DynArray();                                                     // Constructor declaration when instantiating the "DynArray" class.
         bool isEmpty();                                                 // Method which checks if the dynamic array is empty.
         void push_back(void* element, Datatypes type);                  // Method which appends an element to the end of the array.
-        std::any pop_back();                                            // Method which removes an element from the end of the array.
+        element pop_back();                                             // Method which removes an element from the end of the array.
         unsigned char getSize();                                        // Returns the current size of the array.
         unsigned char getUtilisedSize();                                // Returns the utilised size of the array.
-        std::any getElement(size_t index);                              // Returns the element of any given index.
+        element getElement(size_t index);                               // Returns the element of any given index.
         void setElement(size_t index, void* element, Datatypes type);   // Method which inserts an element with a given index.
         ~DynArray();                                                    // Destructor method, used whenever deleting dynamic array.
+};
+
+
+struct nodeData{        // Struct which contains information for an individual node.
+    void* data;         // The void pointer which points to memory, can be of anything, however, requires casting when dereferencing.
+    Datatypes type;     // The enum object, signifies what type the void pointer needs to be dereferenced to.
 };
 
 // Linked List class declaration:
 class LinkedList{
     private:
-        struct nodeData{        // Struct which contains information for an individual node.
-            void* data;         // The void pointer which points to memory, can be of anything, however, requires casting when dereferencing.
-            Datatypes type;     // The enum object, signifies what type the void pointer needs to be dereferenced to.
-        };
-
         nodeData val;           // This is the value present within a node.
         LinkedList* next;       // This pointer points to the next node, will be "nullptr" at the end.
 
@@ -169,15 +172,10 @@ typedef struct nodeData{
 // Stack class declaration:
 class Stack{
     private:
-        struct element{
-            void* data; 
-            Datatypes type;
-        };
-
-        element* stack;
-        element* topPointer;
-        unsigned char size;
-        unsigned char utilisedSize;
+        element* stack;                 // Pointer for the stack; this is so memory can be dynamically allocated. The contents of the stack are kept in an array.
+        element* topPointer;            // Pointer which points at the top of the stack.
+        unsigned char size;             // Unsigned character, keeps count of the POTENTIAL maximum size of the array. 
+        unsigned char utilisedSize;     // Unsigned character, keeps count of elements that are currently used within the array. 
 
         bool isFull();
     
@@ -193,8 +191,9 @@ class Stack{
 // Hash map class declaration
 class HashMap{
     private:
-        // const unsigned char tableSize = 101;
         struct hashNode{
+            void* originalKeyValue;
+            Datatypes keyType;
             unsigned char key;
             void* value;
             Datatypes valueType;
@@ -202,12 +201,12 @@ class HashMap{
         };
 
         hashNode* table[TABLESIZE];
-        unsigned char hash(void* val, Datatypes valType);
+        unsigned long hash(void* const val, Datatypes valType);
 
     public:
         HashMap();
         void insert(void* val, void* key, Datatypes valType, Datatypes keyType);
-        Stack* get(void* key, Datatypes keyType);
+        Stack get(void* key, Datatypes keyType);
         bool remove(void* key, Datatypes keyType);
         ~HashMap();
 };

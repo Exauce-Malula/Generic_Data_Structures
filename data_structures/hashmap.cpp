@@ -12,7 +12,7 @@ HashMap::HashMap(){
     }
 }
 
-unsigned char HashMap::hash(void* val, Datatypes valType){
+unsigned long HashMap::hash(void* const val, Datatypes valType){
     unsigned long hash = 5381;
     switch(valType){
         case Datatypes::STRING:{
@@ -87,40 +87,45 @@ unsigned char HashMap::hash(void* val, Datatypes valType){
         }
     }
 
-    return hash % 101;
+    return hash % TABLESIZE;
 }
 
 void HashMap::insert(void* val, void* key, Datatypes valType, Datatypes keyType){
-    if (table[key] == nullptr){
-        table[key] = new HashMap::hashNode;
-        table[key]->next = nullptr;
-        table[key]->value = nullptr;
+    unsigned char index = hash(key, keyType);
+    if (table[index] == nullptr){
+        table[index] = new HashMap::hashNode;
+        table[index]->next = nullptr;
+        table[index]->value = nullptr;
     }
-    if (table[key]->value != nullptr){
+    if (table[index]->value != nullptr){
         HashMap::hashNode* tempPointer;
-        tempPointer = table[key];
+        tempPointer = table[index];
         while (tempPointer != nullptr){
             tempPointer = tempPointer->next;
         }
         tempPointer->next = new HashMap::hashNode;
         tempPointer->next = nullptr;
         tempPointer->value = val;
-        tempPointer->key = key;
+        tempPointer->key = index;
         tempPointer->valueType = valType;
+        tempPointer->originalKeyValue = key;
+        tempPointer->keyType = keyType;
     }
     else{
-        table[key]->key = key;
-        table[key]->value = val;
-        table[key]->valueType = valType;
+        table[index]->key = index;
+        table[index]->value = val;
+        table[index]->valueType = valType;
+        table[index]->originalKeyValue = key;
+        table[index]->keyType = keyType;
     }
 }
 
-Stack* HashMap::get(void* key, Datatypes keyType){
+Stack HashMap::get(void* key, Datatypes keyType){
     unsigned char index = hash(key, keyType);
-    Stack* values = new Stack();
+    Stack values = Stack();
     HashMap::hashNode* tempPointer = table[index];
     while (tempPointer != nullptr){
-        values->push(tempPointer->value, tempPointer->valueType);
+        values.push(tempPointer->value, tempPointer->valueType);
         tempPointer = tempPointer->next;
     }
     return values;
@@ -131,7 +136,77 @@ bool HashMap::remove(void* key, Datatypes keyType){
     HashMap::hashNode* tempPointer = table[index];
     HashMap::hashNode* previous = nullptr;
     while(tempPointer != nullptr){
-        
+        if (tempPointer->key == index){
+            if (previous == nullptr){
+                tempPointer = tempPointer->next;
+            }
+            else{
+                previous->next = tempPointer->next;
+            }
+            switch(tempPointer->valueType){
+                case Datatypes::SIGNED_INT:{
+                    delete static_cast<signed int*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::UNSIGNED_INT:{
+                    delete static_cast<unsigned int*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::SIGNED_CHAR:{
+                    delete static_cast<signed char*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::UNSIGNED_CHAR:{
+                    delete static_cast<unsigned char*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::CHAR:{
+                    delete static_cast<char*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::UNSIGNED_LONG_INT:{
+                    delete static_cast<unsigned long*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::FLOAT:{
+                    delete static_cast<float*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::DOUBLE:{
+                    delete static_cast<double*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::BOOLEAN:{
+                    delete static_cast<bool*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::STRING:{
+                    delete static_cast<std::string*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::SIGNED_SHORT:{
+                    delete static_cast<signed short*>(tempPointer->value);
+                    break;
+                }
+                case Datatypes::UNSIGNED_SHORT:{
+                    delete static_cast<unsigned short*>(tempPointer->value);
+                    break;
+                }
+                default:{
+                    throw std::invalid_argument("Invalid datatype provided.");
+                    break;
+                }
+            }
+            tempPointer = nullptr;
+            return true;
+        }
+    }
+    return false;
+}
+
+HashMap::~HashMap(){
+    for (size_t i = 0; i < TABLESIZE; i++){
+        remove(table[i]->originalKeyValue, table[i]->keyType);
     }
 }
 

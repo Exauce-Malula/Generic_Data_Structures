@@ -119,9 +119,6 @@ LinkedList* LinkedList::initLinkedList(size_t size){    // Function method decla
     return head;                                                                // The head is returned.
 }
 
-// Comment on init method at school...
-// Also comment on destructor method (finish it as well please) and print method...
-
 void LinkedList::insert_element_LinkedList(void* data, Datatypes type){     // Procedure method declaration, inserts a node at the head of the Linked List.
     if (this == nullptr){                                                   // If the current instance of the Linked List is "nullptr" (empty), then the method stops, returns nothing.
         return;

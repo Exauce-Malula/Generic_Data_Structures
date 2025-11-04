@@ -21,12 +21,12 @@ void DynArray::doubleSize(){                                    // Method which 
     size <<= 1;                                                 // The size of the array is then doubled.
 }
 
-void DynArray::halfSize(){                                      // Method which halves the size of the dynamic array.
-    element* newArray = new element[size >> 1];                 // Bitshift right once to halve the size of the array, dynamically allocated memory to a new element pointer.
-    std::memcpy(newArray, array, (sizeof(element) * size));     // std::memcpy copies the memory addresses of the elements from the old array to the newArray.
-    delete[] array;                                             // Delete the old array, copy is already made, want to save, not waste memory.
-    this->array = newArray;                                     // Set the current instance of the array to the newly allocated array.
-    size >>= 1;                                                 // The size of the array is then halved.
+void DynArray::halfSize(){                                          // Method which halves the size of the dynamic array.
+    element* newArray = new element[size >> 1];                     // Bitshift right once to halve the size of the array, dynamically allocated memory to a new element pointer.
+    std::memcpy(newArray, array, (sizeof(element) * size >> 1));    // std::memcpy copies the memory addresses of the elements from the old array to the newArray.
+    delete[] array;                                                 // Delete the old array, copy is already made, want to save, not waste memory.
+    this->array = newArray;                                         // Set the current instance of the array to the newly allocated array.
+    size >>= 1;                                                     // The size of the array is then halved.
 }
     
 DynArray::DynArray(){               // Constructor declaration when instantiating the "DynArray" class.
@@ -57,6 +57,7 @@ void DynArray::push_back(void* element, Datatypes type){    // Method which appe
     utilisedSize++;                                         // Increments the utilised size by one.
 }
 
+/*
 std::any DynArray::pop_back(){                                                                          // Method which removes an element from the end of the array.
     if (!isEmpty()){                                                                                    // Checks if the array is not empty.
         utilisedSize--;                                                                                 // Utilised size decreases by one, as an element is being removed.
@@ -64,6 +65,19 @@ std::any DynArray::pop_back(){                                                  
             halfSize();
         }
         return elementDereferencing(array[utilisedSize + 1].elementPtr, array[utilisedSize + 1].type);  // Calls upon the function "elementDereferencing" to return a value.  
+    }
+    return {};                                                                                          // Otherwise, nothing is returned.
+}
+*/
+
+element DynArray::pop_back(){                                                                           // Method which removes an element from the end of the array.
+    if (!isEmpty()){                                                                                    // Checks if the array is not empty.
+        element poppedElement = array[utilisedSize - 1];                                                // Stores the element as a variable.
+        utilisedSize--;                                                                                 // Utilised size decreases by one, as an element is being removed.
+        if (utilisedSize <= (size >> 1) && size > 1){                                                   // Checks if the utilised size is now half of the size AND the size is also greater than one.
+            halfSize();
+        }
+        return poppedElement;                                                                           // Returns entire "element" struct array element, at the index "utilisedSize + 1", to retrieve the removed element. 
     }
     return {};                                                                                          // Otherwise, nothing is returned.
 }
@@ -76,12 +90,12 @@ unsigned char DynArray::getUtilisedSize(){    // Returns the utilised size of th
     return this->utilisedSize;
 }
 
-std::any DynArray::getElement(size_t index){                                    // Returns the element of any given index.
+element DynArray::getElement(size_t index){                                     // Returns the element of any given index.
     if (index >= utilisedSize || index >= 256){                                 // Checks if the index is greater or equal to the "utilisedSize" OR if the index is equal or greater than 256.
         std::cout << "Out of bounds...";                                        // Out of bounds error, returns nothing.
         return {};
     }
-    return elementDereferencing(array[index].elementPtr, array[index].type);    // Uses "elementDereferencing" to return the element.
+    return array[index];                                                        // Accesses the array at the given index to return the specified element.
 }
 
 void DynArray::setElement(size_t index, void* element, Datatypes type){         // Method which inserts an element with a given index.
@@ -93,9 +107,80 @@ void DynArray::setElement(size_t index, void* element, Datatypes type){         
     array[index].type = type;                                                   // A type is also provided within the specific index of the array.
 }
 
-DynArray::~DynArray(){          // Destructor method, used whenever deleting dynamic array.
-    delete[] this->array;       // The array which memory has been allocated to is freed.
-     this->array = nullptr;     // Set to "nullptr" to avoid dangling pointers.
+DynArray::~DynArray(){                      // Destructor method, used whenever deleting dynamic array.
+    element tempElement;                    // A temporary struct object which will store information based on the element provided.
+    for(size_t i = 0; i < size; i++){       // For loop which goes through every element within the array to delete every individual element.
+        tempElement = getElement(i);
+        switch (tempElement.type){
+            // This switch statement casts the element pointer to its appropriate type based on the enum object, then is set to "nullptr" to become inaccessible. 
+            case Datatypes::SIGNED_INT:{
+                delete static_cast<signed int*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::UNSIGNED_INT:{
+                delete static_cast<unsigned int*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::UNSIGNED_LONG_INT:{
+                delete static_cast<unsigned long*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::CHAR:{
+                delete static_cast<char*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::SIGNED_CHAR:{
+                delete static_cast<signed char*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::UNSIGNED_CHAR:{
+                delete static_cast<unsigned char*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::SIGNED_SHORT:{
+                delete static_cast<signed short*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::UNSIGNED_SHORT:{
+                delete static_cast<unsigned short*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::STRING:{
+                delete static_cast<std::string*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::BOOLEAN:{
+                delete static_cast<bool*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::FLOAT:{
+                delete static_cast<float*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            case Datatypes::DOUBLE:{
+                delete static_cast<double*>(tempElement.elementPtr);
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+            default:{                       // Ensures that any elements that haven't been dynamically allocated are set to "nullptr" to become inaccessible.                                              
+                tempElement.elementPtr = nullptr;
+                break;
+            }
+        }
+    }
+    delete[] this->array;                   // The array which memory has been allocated to is freed.
+    this->array = nullptr;                  // Set to "nullptr" to avoid dangling pointers.
 }
 
 
