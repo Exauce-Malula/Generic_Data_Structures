@@ -175,6 +175,7 @@ void LinkedList::print_LinkedList(){                                        // P
                 break;
             }
         }
+        temp = temp->next;
     }
     std::cout << "nullptr." << std::endl;                                   // Concludes by printing nullptr.
 }
