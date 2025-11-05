@@ -175,7 +175,7 @@ void LinkedList::print_LinkedList(){                                        // P
                 break;
             }
         }
-        temp = temp->next;
+        temp = temp->next;                                                  // The temporary object is set equal to the next node.
     }
     std::cout << "nullptr." << std::endl;                                   // Concludes by printing nullptr.
 }
