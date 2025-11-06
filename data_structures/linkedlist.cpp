@@ -180,11 +180,11 @@ void LinkedList::print_LinkedList(){                                        // P
     std::cout << "nullptr." << std::endl;                                   // Concludes by printing nullptr.
 }
 
-LinkedList* LinkedList::insert_element_LinkedList(void* data, Datatypes type){
-    LinkedList* newNode = new LinkedList(data, type);
-    LinkedList* temp = this;
-    newNode->next = temp;
-    return newNode;
+LinkedList* LinkedList::insert_element_LinkedList(void* data, Datatypes type){         // Procedure method declaration, inserts a node at the head of the Linked List.
+    LinkedList* newNode = new LinkedList(data, type);                                  // A new node is instantiated via the constructor method, utilising the parameters provided for the node's data and type.
+    LinkedList* temp = this;                                                           // A temporary Linked List object is created and is set equal to the head of the current instance Linked List.
+    newNode->next = temp;                                                              // The pointer of the new node is set equal to the head of the linked list instance.
+    return newNode;                                                                    // The new node becomes the new head of the linked list, it is returned.
 }
 
 LinkedList::~LinkedList(){                              // Destructor method for the Linked List class, destroys a chain of nodes.
