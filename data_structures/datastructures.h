@@ -10,7 +10,7 @@
 #include <cstddef>
 #include <new>
 
-#define TABLESIZE 101
+#define TABLESIZE 101   // A prime number is used for a better hashing distribution, lowering collision probabilities.
 
 /* typedef struct LinkedList LinkedList;
 typedef LinkedList* ll_ptr;
@@ -191,22 +191,22 @@ class Stack{
 // Hash map class declaration
 class HashMap{
     private:
-        struct hashNode{
-            void* originalKeyValue;
-            Datatypes keyType;
-            unsigned char key;
-            void* value;
-            Datatypes valueType;
-            hashNode* next;
+        struct hashNode{                 // The struct/record contains the information about a bucket within the hash map.
+            void* originalKeyValue;      // Contains the original key of the value.
+            Datatypes keyType;           // Object from the enum class "Datatypes" to determine the datatype of the original key.
+            unsigned char key;           // Will contain the hashed value of the key.
+            void* value;                 // Contains the value.
+            Datatypes valueType;         // Object from the enum class "Datatypes" to determine the datatype of the value.
+            hashNode* next;              // The pointer to the next value if necessary. Utilises a linked list for chaining in case of any collisions, collision resolution.
         };
 
-        hashNode* table[TABLESIZE];
-        unsigned long hash(void* const val, Datatypes valType);
+        hashNode* table[TABLESIZE];                                 // Declaration of the attribute of the actual table of the hash map, where the size is equal to "TABLESIZE".
+        unsigned long hash(void* const val, Datatypes valType);     // Declaration of a private method to hash a value.
 
     public:
-        HashMap();
-        void insert(void* val, void* key, Datatypes valType, Datatypes keyType);
-        Stack get(void* key, Datatypes keyType);
+        HashMap();                                                                  // Constructor declaration for the hash map.
+        void insert(void* val, void* key, Datatypes valType, Datatypes keyType);    // Declaration to insert a value into a bucket within the hash map. Also the setter method.
+        Stack get(void* key, Datatypes keyType);                                    // Declaration of a getter method to obtain values from a given key.
         bool remove(void* key, Datatypes keyType);
         ~HashMap();
 };

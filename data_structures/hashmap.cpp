@@ -6,14 +6,19 @@
 #include "datastructures.h" // Own library created as a header file.
 #include <cstring>
 
-HashMap::HashMap(){
-    for (size_t i = 0; i < TABLESIZE; i++){
-        table[i] = nullptr;
+HashMap::HashMap(){                             // Constructor declaration for the hash map.                            
+    for (size_t i = 0; i < TABLESIZE; i++){     // Sets all buckets within the hash map as empty.
+        table[i] = nullptr;                     // "nullptr" will signify that the bucket is empty.
     }
 }
 
-unsigned long HashMap::hash(void* const val, Datatypes valType){
-    unsigned long hash = 5381;
+unsigned long HashMap::hash(void* const val, Datatypes valType){     // Declaration of a private method to hash a value.  
+    unsigned long hash = 5381;                                       // Initial seed, recommended by DJB2.
+    /*
+        The switch statement below, based on the type of the value passed, is reinterpreted as an either a string/array of unsigned characters, looping across every
+        single character to be hashed, having "hash" equal itself multiplied by 33, plus itself, then the ASCII value of the character.
+        If there are multiple characters, then it is iterated over every single character.  
+    */
     switch(valType){
         case Datatypes::STRING:{
             std::string* tempStringPtr = static_cast<std::string*>(val);
@@ -87,31 +92,37 @@ unsigned long HashMap::hash(void* const val, Datatypes valType){
         }
     }
 
-    return hash % TABLESIZE;
+    return hash % TABLESIZE;                                         // This is so that the key fits within the table's range.
 }
 
-void HashMap::insert(void* val, void* key, Datatypes valType, Datatypes keyType){
-    unsigned char index = hash(key, keyType);
-    if (table[index] == nullptr){
-        table[index] = new HashMap::hashNode;
-        table[index]->next = nullptr;
-        table[index]->value = nullptr;
+void HashMap::insert(void* val, void* key, Datatypes valType, Datatypes keyType){   // Declaration to insert a value into a bucket within the hash map. Also the setter method.
+    unsigned char index = hash(key, keyType);                                       // This contains the hashed value of the key.
+    if (table[index] == nullptr){                                                   // Checks if the bucket is currently empty.
+        table[index] = new HashMap::hashNode;                                       // Creates new instance of the hash node struct.
+        table[index]->next = nullptr;                                               // The pointer to the next hash node is set equal to null, to signify that it points to nothing.
+        table[index]->value = nullptr;                                              // The value is set to null, to signify it is empty.
     }
-    if (table[index]->value != nullptr){
-        HashMap::hashNode* tempPointer;
-        tempPointer = table[index];
-        while (tempPointer != nullptr){
-            tempPointer = tempPointer->next;
+    if (table[index]->value != nullptr){                                            // Condition which checks if the value within the bucket is not empty.
+        HashMap::hashNode* tempPointer;                                             // Temporary pointer is created.
+        tempPointer = table[index];                                                 // It is set equal to the current bucket.
+        while (tempPointer != nullptr){                                             // While loop which traverses through the chaining of the nodes.
+            tempPointer = tempPointer->next;                                        // The temporary pointer is set equal to the pointer of the next node.
         }
-        tempPointer->next = new HashMap::hashNode;
-        tempPointer->next = nullptr;
-        tempPointer->value = val;
+        tempPointer->next = new HashMap::hashNode;                                  // A new bucket instance is created. 
+        tempPointer->next = nullptr;                                                // The next bucket is set to null.
+        /*
+            The value, key, value type, original key value and key type are set equal to their respective values.
+        */
+        tempPointer->value = val;                                                   
         tempPointer->key = index;
         tempPointer->valueType = valType;
         tempPointer->originalKeyValue = key;
         tempPointer->keyType = keyType;
     }
     else{
+         /*
+            Otherwise, the value, key, value type, original key value and key type are set equal to their respective values.
+        */
         table[index]->key = index;
         table[index]->value = val;
         table[index]->valueType = valType;
@@ -120,22 +131,22 @@ void HashMap::insert(void* val, void* key, Datatypes valType, Datatypes keyType)
     }
 }
 
-Stack HashMap::get(void* key, Datatypes keyType){
-    unsigned char index = hash(key, keyType);
-    Stack values = Stack();
-    HashMap::hashNode* tempPointer = table[index];
-    while (tempPointer != nullptr){
-        values.push(tempPointer->value, tempPointer->valueType);
-        tempPointer = tempPointer->next;
+Stack HashMap::get(void* key, Datatypes keyType){                   // Declaration of a getter method to obtain values from a given key.
+    unsigned char index = hash(key, keyType);                       // This contains the hashed value of the key.
+    Stack values = Stack();                                         // Stack which collects a set of values from if the list has any chaining.
+    HashMap::hashNode* tempPointer = table[index];                  // Temporary pointer which points at the current bucket.
+    while (tempPointer != nullptr){                                 // This while loop searches through any chaining.
+        values.push(tempPointer->value, tempPointer->valueType);    // The value present alongside its type is pushed onto the stack.
+        tempPointer = tempPointer->next;                            // The temporary pointer is set equal to the pointer of the next node.
     }
-    return values;
+    return values;                                                  // The stack is returned.
 }
 
-bool HashMap::remove(void* key, Datatypes keyType){
-    unsigned char index = hash(key, keyType);
-    HashMap::hashNode* tempPointer = table[index];
-    HashMap::hashNode* previous = nullptr;
-    while(tempPointer != nullptr){
+bool HashMap::remove(void* key, Datatypes keyType){                 // Declaration of a method to remove a bucket.
+    unsigned char index = hash(key, keyType);                       // This contains the hashed value of the key.
+    HashMap::hashNode* tempPointer = table[index];                  // Temporary pointer which points at the current bucket.
+    HashMap::hashNode* previous = nullptr;                          // A previous node pointer is created to manage traversal.
+    while(tempPointer != nullptr){                                  
         if (tempPointer->key == index){
             if (previous == nullptr){
                 tempPointer = tempPointer->next;
