@@ -69,9 +69,9 @@ element Stack::peek(){                                                      // M
     return *(topPointer - 1);                                               // The value which the "topPointer" points to is then returned.
 }
 
-Stack::~Stack(){            // Destructor method to delete/destroy stack object (NOT FINISHED)
+Stack::~Stack(){            // Destructor method to delete/destroy stack object.
+    // WRITE SWITCH STATEMENT AFTER EATING PLEASE
     delete[] stack;
-    // Switch statement to delete every single element based on type...
     stack = nullptr;
 }
 

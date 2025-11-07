@@ -146,15 +146,15 @@ bool HashMap::remove(void* key, Datatypes keyType){                 // Declarati
     unsigned char index = hash(key, keyType);                       // This contains the hashed value of the key.
     HashMap::hashNode* tempPointer = table[index];                  // Temporary pointer which points at the current bucket.
     HashMap::hashNode* previous = nullptr;                          // A previous node pointer is created to manage traversal.
-    while(tempPointer != nullptr){                                  
-        if (tempPointer->key == index){
-            if (previous == nullptr){
-                tempPointer = tempPointer->next;
+    while(tempPointer != nullptr){                                  // Loops over the chaining of the bucket.     
+        if (tempPointer->key == index){                             // Condition where the key found is in the bucket.
+            if (previous == nullptr){                               // Checks whether the previous bucket is equal to null (empty).
+                tempPointer = tempPointer->next;                    // Traverses to the next bucket via chaining.
             }
             else{
-                previous->next = tempPointer->next;
+                previous->next = tempPointer->next;                 // Otherwise, the pointer to the next node for previous is set to the next node for the current bucket.
             }
-            switch(tempPointer->valueType){
+            switch(tempPointer->valueType){                         // Switch statement to delete the value within the bucket based on it's type.
                 case Datatypes::SIGNED_INT:{
                     delete static_cast<signed int*>(tempPointer->value);
                     break;
@@ -208,15 +208,16 @@ bool HashMap::remove(void* key, Datatypes keyType){                 // Declarati
                     break;
                 }
             }
-            tempPointer = nullptr;
-            return true;
+            
+            tempPointer->value = nullptr;                            // When fully deleted, the bucket is set to null pointer. 
+            return true;                                            // True is returned to confirm that the value was found and deleted.
         }
     }
-    return false;
+    return false;                                                   // Otherwise, if the method could not find the value, false is returned.
 }
 
-HashMap::~HashMap(){
-    for (size_t i = 0; i < TABLESIZE; i++){
+HashMap::~HashMap(){                                                // Declaration of a destructor method.
+    for (size_t i = 0; i < TABLESIZE; i++){                         // Loops over the table, calls on the "remove" method.
         remove(table[i]->originalKeyValue, table[i]->keyType);
     }
 }

@@ -207,6 +207,6 @@ class HashMap{
         HashMap();                                                                  // Constructor declaration for the hash map.
         void insert(void* val, void* key, Datatypes valType, Datatypes keyType);    // Declaration to insert a value into a bucket within the hash map. Also the setter method.
         Stack get(void* key, Datatypes keyType);                                    // Declaration of a getter method to obtain values from a given key.
-        bool remove(void* key, Datatypes keyType);
+        bool remove(void* key, Datatypes keyType);                                  // Declaration of a method to remove a bucket.
         ~HashMap();
 };
