@@ -9,6 +9,9 @@
         "-std=c++17",
         "main.cpp",
         "data_structures/dyn_array.cpp",
+        "data_structures/stack.cpp",
+        "data_structures/linkedlist.cpp",
+        "data_structures/hashmap.cpp",
         "-g",
         "-o",
         "main.exe"

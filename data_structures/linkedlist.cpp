@@ -119,7 +119,7 @@ LinkedList* LinkedList::initLinkedList(size_t size){    // Function method decla
     return head;                                                                // The head is returned.
 }
 
-void LinkedList::print_LinkedList(){                                        // Procedure which prints the entirity of the Linked List.
+void LinkedList::print_LinkedList(){                                        // Procedure which prints the entirety of the Linked List.
     if (this == nullptr){                                                   // If the current instance of the Linked List is "nullptr" (empty), then the method stops, returns nothing.
         return;
     }
