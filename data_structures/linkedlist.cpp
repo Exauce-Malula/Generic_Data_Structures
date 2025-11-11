@@ -180,11 +180,54 @@ void LinkedList::print_LinkedList(){                                        // P
     std::cout << "nullptr." << std::endl;                                   // Concludes by printing nullptr.
 }
 
-LinkedList* LinkedList::insert_element_LinkedList(void* data, Datatypes type){         // Procedure method declaration, inserts a node at the head of the Linked List.
+LinkedList* LinkedList::insert_element_LinkedList(void* data, Datatypes type){         // Function method declaration, inserts a node at the head of the Linked List.
     LinkedList* newNode = new LinkedList(data, type);                                  // A new node is instantiated via the constructor method, utilising the parameters provided for the node's data and type.
     LinkedList* temp = this;                                                           // A temporary Linked List object is created and is set equal to the head of the current instance Linked List.
     newNode->next = temp;                                                              // The pointer of the new node is set equal to the head of the linked list instance.
     return newNode;                                                                    // The new node becomes the new head of the linked list, it is returned.
+}
+
+LinkedList* LinkedList::getNode(size_t index){
+    LinkedList* tempList = this;
+    for (size_t i = 0; i < index; i++){
+        if (tempList == nullptr){
+            std::cerr << "Index not found." << std::endl;
+            return nullptr;
+        }
+        tempList = tempList->next;
+    }
+    return tempList;
+}
+
+void LinkedList::deleteNode(size_t index, LinkedList*& head){       
+    if (head == nullptr){
+        std::cerr << "Linked List is empty." << std::endl;
+        return;
+    }
+
+    LinkedList* previous = nullptr;
+    LinkedList* current = head;
+    LinkedList* nextNode = head->next;
+
+    if(index == 0){
+        head = head->next;
+        current->next = nullptr; 
+        delete current;
+        return;
+    }
+
+    for (size_t i = 0; i < index && current != nullptr; ++i){
+        if (nextNode == nullptr){
+            std::cerr << "Index not found." << std::endl;
+            return;
+        }
+        previous = current;
+        current = nextNode;
+        nextNode = nextNode->next;
+    }
+    previous->next = nextNode;
+    current->next = nullptr;
+    delete current;                                                                                                                                                
 }
 
 LinkedList::~LinkedList(){                              // Destructor method for the Linked List class, destroys a chain of nodes.
